@@ -4,10 +4,23 @@
     <hr />
     <div class="container-fluid">
       <div class="row">
+        <!-- if products array is empty, show message -->
+        <div
+          *ngIf="products?.length === 0"
+          class="alert alert-warning col-md-12"
+          role="alert"
+        >
+          No products found.
+        </div>
+
         <!-- loop over the collection of products -->
         <div *ngFor="let tempProduct of products" class="col-md-3">
           <div class="product-box">
-            <img src="{{ tempProduct.imageUrl }}" class="img-responsive" />
+            <img
+              [src]="tempProduct.imageUrl"
+              class="img-responsive"
+              alt="{{ tempProduct.name }}"
+            />
             <h1>{{ tempProduct.name }}</h1>
             <div class="price">
               {{ tempProduct.unitPrice | currency : "USD" }}

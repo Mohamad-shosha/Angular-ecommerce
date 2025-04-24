@@ -16,12 +16,15 @@
         <!-- Product Cards -->
         <div *ngFor="let tempProduct of products" class="col-lg-3 col-md-4 col-sm-6 mb-4">
           <div class="card h-100 shadow-sm product-card">
+
+            <a routerLink="/products/ {{ tempProduct.id }} ">
             <img
               [src]="tempProduct.imageUrl"
               [alt]="tempProduct.name"
               class="card-img-top p-3"
               style="height: 220px; object-fit: contain; border-radius: 10px"
             />
+          </a>
             <div class="card-body text-center d-flex flex-column">
               <h6 class="card-title">{{ tempProduct.name }}</h6>
               <p class="text-primary fw-bold">
@@ -31,9 +34,11 @@
                 <button class="btn btn-outline-primary w-100 mb-2 btn-hover">
                   Add to Cart
                 </button>
-                <button class="btn btn-secondary w-100 btn-hover">
+
+                <button [routerLink]="'/products/' + tempProduct.id" class="btn btn-secondary w-100 btn-hover">
                   View Details
                 </button>
+           
               </div>
             </div>
           </div>

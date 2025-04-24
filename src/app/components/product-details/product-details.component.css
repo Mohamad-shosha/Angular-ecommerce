@@ -1,0 +1,13 @@
+
+.btn {
+    transition: all 0.2s ease;
+  }
+  
+  .btn-hover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body .btn {
+    font-weight: bold;
+}

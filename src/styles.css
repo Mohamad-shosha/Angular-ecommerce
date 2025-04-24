@@ -742,6 +742,15 @@ table.table.table-bordered th {
 .detail-section {
   margin-top: 60px;
 }
+
+.detail-img {
+  width: 30%;
+  height: 220px; 
+  object-fit: contain; 
+  border-radius: 10px
+  
+}
+
 /**/
 
 /* 
@@ -755,7 +764,7 @@ table.table.table-bordered th {
   background-color: #0da8e4 !important;
   border-color: #0da8e4 !important;
 }
-a.primary-btn {
+a.btn-hover {
   background: #05143f;
   padding: 7px 20px;
   text-align: center;
@@ -764,11 +773,16 @@ a.primary-btn {
   border-radius: 2px;
   font-size: 14px;
   margin-top: 5px;
+  transition: all 2s ease;
 }
-a.primary-btn:hover {
+a.btn-hover:hover {
   background: #0da8e4;
   color: #fff;
+  transform: scale(1.05);
+  opacity: 0.9;
+  
 }
+
 
 .active-link {
   font-weight: bold;

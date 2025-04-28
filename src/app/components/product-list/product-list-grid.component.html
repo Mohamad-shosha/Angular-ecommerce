@@ -31,7 +31,7 @@
                 {{ tempProduct.unitPrice | currency: 'USD' }}
               </p>
               <div class="mt-auto">
-                <button class="btn btn-outline-primary w-100 mb-2 btn-hover">
+                <button (click)="addToCart(tempProduct)" class="btn btn-outline-primary w-100 mb-2 btn-hover">
                   Add to Cart
                 </button>
 

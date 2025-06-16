@@ -11,16 +11,21 @@ import { CheckoutFormService } from 'src/app/services/checkout-form-service.serv
 })
 export class CheckoutComponent implements OnInit {
   checkoutFormGroup!: FormGroup;
-  ;
-
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
-  constructor(private formBuilder: FormBuilder,
-    private checkoutFormService: CheckoutFormService) { }
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
+
+  countries: Country[] = [];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private checkoutFormService: CheckoutFormService
+  ) {}
 
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -58,16 +63,16 @@ export class CheckoutComponent implements OnInit {
 
     // populate credit card years
     this.populateCreditCardYears();
-
   }
 
   populateCreditCardMonth() {
     const startMonth: number = new Date().getMonth() + 1;
-    console.log("startMonth: " + startMonth);
+    console.log('startMonth: ' + startMonth);
 
-    this.checkoutFormService.getCreditCardMonths(startMonth).subscribe(
-      data => {
-        console.log("Retrieved credit card months: " + JSON.stringify(data));
+    this.checkoutFormService
+      .getCreditCardMonths(startMonth)
+      .subscribe((data) => {
+        console.log('Retrieved credit card months: ' + JSON.stringify(data));
         this.creditCardMonths = data;
       });
   }
@@ -88,12 +93,12 @@ export class CheckoutComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
-      this.checkoutFormGroup.controls['billingAddress']
-        .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
+      this.checkoutFormGroup.controls['billingAddress'].setValue(
+        this.checkoutFormGroup.controls['shippingAddress'].value
+      );
     } else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
     }
-
   }
 
   onSubmit() {
@@ -101,15 +106,15 @@ export class CheckoutComponent implements OnInit {
     console.log(this.checkoutFormGroup.get('customer')?.value);
     console.log(
       'The email address is ' +
-      this.checkoutFormGroup.get('customer')?.value?.email
+        this.checkoutFormGroup.get('customer')?.value?.email
     );
     console.log(
       'The shipping address country is ' +
-      this.checkoutFormGroup.get('shippingAddress')?.value?.country?.name
+        this.checkoutFormGroup.get('shippingAddress')?.value?.country?.name
     );
     console.log(
       'The shipping address state is ' +
-      this.checkoutFormGroup.get('shippingAddress')?.value?.state?.name
+        this.checkoutFormGroup.get('shippingAddress')?.value?.state?.name
     );
   }
 

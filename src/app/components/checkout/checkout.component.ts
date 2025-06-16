@@ -10,15 +10,15 @@ import { CheckoutFormService } from 'src/app/services/checkout-form-service.serv
 export class CheckoutComponent implements OnInit {
   checkoutFormGroup!: FormGroup;
   ;
-  
+
   totalPrice: number = 0;
   totalQuantity: number = 0;
-  
+
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private checkoutFormService: CheckoutFormService) { }
+    private checkoutFormService: CheckoutFormService) { }
 
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -51,18 +51,18 @@ export class CheckoutComponent implements OnInit {
       })
     });
 
-   // populate credit card months
-   this.populateCreditCardMonth();
-   
-   // populate credit card years
-   this.populateCreditCardYears();
-   
+    // populate credit card months
+    this.populateCreditCardMonth();
+
+    // populate credit card years
+    this.populateCreditCardYears();
+
   }
 
   populateCreditCardMonth() {
     const startMonth: number = new Date().getMonth() + 1;
     console.log("startMonth: " + startMonth);
- 
+
     this.checkoutFormService.getCreditCardMonths(startMonth).subscribe(
       data => {
         console.log("Retrieved credit card months: " + JSON.stringify(data));
@@ -84,13 +84,13 @@ export class CheckoutComponent implements OnInit {
 
     const checkbox = event.target as HTMLInputElement;
 
-  if (checkbox.checked) {
-    this.checkoutFormGroup.controls['billingAddress']
-          .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
-  } else {
-    this.checkoutFormGroup.controls['billingAddress'].reset();
-  }
-    
+    if (checkbox.checked) {
+      this.checkoutFormGroup.controls['billingAddress']
+        .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
+    } else {
+      this.checkoutFormGroup.controls['billingAddress'].reset();
+    }
+
   }
 
   onSubmit() {

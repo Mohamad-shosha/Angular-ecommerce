@@ -9,6 +9,7 @@ import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
 import { CheckoutFormService } from 'src/app/services/checkout-form-service.service';
 import { ShopValidators } from 'src/app/validators/shop-validators';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -30,10 +31,13 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private checkoutFormService: CheckoutFormService
+    private checkoutFormService: CheckoutFormService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    this.reviewCartDetails();
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -109,6 +113,19 @@ export class CheckoutComponent implements OnInit {
 
     // populate credit card years
     this.populateCreditCardYears();
+  }
+
+  reviewCartDetails() {
+    // subscribe to cart service
+    this.cartService.totalPrice.subscribe(
+      (totalPrice) => (this.totalPrice = totalPrice)
+    );
+    this.cartService.totalQuantity.subscribe(
+      (totalQuantity) => (this.totalQuantity = totalQuantity)
+    );
+
+    // compute cart total price and quantity
+    this.cartService.computeCartTotals();
   }
 
   get firstName() {

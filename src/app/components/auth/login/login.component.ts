@@ -50,7 +50,6 @@ export class LoginComponent {
     }
 
     this.loading = true;
-
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         const { accessToken, refreshToken } = res;
@@ -59,6 +58,7 @@ export class LoginComponent {
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const role = payload.role;
         const email = payload.sub;
+        console.log(role)
 
         // تخزين البيانات
         localStorage.setItem('accessToken', accessToken);
@@ -68,8 +68,8 @@ export class LoginComponent {
         // توجيه حسب الدور
         if (role === 'ADMIN') {
           this.router.navigate(['/admin/dashboard']);
-        } else if (role === 'USER') {
-          this.router.navigate(['/user/homepage']);
+        } else if (role === 'CUSTOMER') {
+          this.router.navigate(['/products']);
         } else {
           this.errorMessage = 'Role not supported.';
         }

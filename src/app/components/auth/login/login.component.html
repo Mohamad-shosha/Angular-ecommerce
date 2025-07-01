@@ -1,0 +1,142 @@
+<!-- src/app/components/auth/login/login.component.html -->
+
+<div
+  class="min-vh-100 d-flex align-items-center justify-content-center"
+  style="
+    background: linear-gradient(-45deg, #000428, #004e92, #000428, #004e92);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  "
+>
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-dark bg-opacity-75 p-4 rounded-4 shadow w-100 text-white"
+    style="max-width: 400px; backdrop-filter: blur(12px)"
+  >
+    <h2 class="text-center mb-4 text-white fw-bold">Login</h2>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label text-white">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control bg-secondary text-white border-0"
+        required
+      />
+      <div
+        *ngIf="
+          loginForm.get('email')?.invalid &&
+          (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+        "
+        class="mt-1"
+      >
+        <ng-container *ngIf="loginForm.get('email')?.errors as errors">
+          <div
+            *ngIf="errors['required']"
+            class="text-danger d-flex align-items-center gap-1 animate__animated animate__fadeIn"
+            style="font-size: 0.875rem"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+            Email is required.
+          </div>
+
+          <div
+            *ngIf="!errors['required'] && errors['pattern']"
+            class="text-danger d-flex align-items-center gap-1 animate__animated animate__fadeIn"
+            style="font-size: 0.875rem"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+            please Enter a correct Email
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label class="form-label text-white">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control bg-secondary text-white border-0"
+        required
+      />
+      <div
+        *ngIf="
+          loginForm.get('password')?.invalid &&
+          (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched)
+        "
+        class="mt-1"
+      >
+        <ng-container *ngIf="loginForm.get('password')?.errors as errors">
+          <div
+            *ngIf="errors['required']"
+            class="text-danger d-flex align-items-center gap-1 animate__animated animate__fadeIn"
+            style="font-size: 0.875rem"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+            Password is required.
+          </div>
+
+          <div
+            *ngIf="!errors['required'] && errors['pattern']"
+            class="text-danger d-flex align-items-center gap-1 animate__animated animate__fadeIn"
+            style="font-size: 0.875rem"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+            please Enter a correct Password
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="text-danger mb-3 small text-center">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+
+    <button
+      type="submit"
+      class="btn w-100 d-flex align-items-center justify-content-center gap-2"
+      [class.btn-primary]="!loading"
+      [class.btn-secondary]="loading"
+      [disabled]="loading"
+    >
+      <div
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm me-2"
+        role="status"
+      ></div>
+      {{ loading ? "Logging in..." : "Login" }}
+    </button>
+
+    <!-- Redirect -->
+    <p class="mt-4 text-center small text-white-50">
+      Don’t have an account?
+      <a routerLink="/auth/register" class="text-info text-decoration-underline"
+        >Sign up</a
+      >
+    </p>
+  </form>
+</div>
+
+<!-- Add this style block in your global styles.scss or styles.css -->
+
+<style>
+  @keyframes gradientBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>

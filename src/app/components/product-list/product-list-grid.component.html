@@ -1,7 +1,5 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
-    <h4 class="text-center">{{ currentCategoryName }}</h4>
-    <hr />
     <div class="container-fluid">
       <div class="row">
         <!-- Show warning if no products -->
@@ -14,76 +12,100 @@
         </div>
 
         <!-- Product Cards -->
-        <div *ngFor="let tempProduct of products" class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <div class="card h-100 shadow-sm product-card">
+        <div
+          *ngFor="let product of products"
+          class="col-lg-3 col-md-4 col-sm-6 mb-4"
+        >
+          <div class="product-card-custom">
+            <!-- Image Section -->
+            <div class="image-container">
+              <img
+                [src]="product.imageUrl"
+                [alt]="product.name"
+                class="card-img-top-custom"
+              />
 
-            <a routerLink="/products/ {{ tempProduct.id }} ">
-            <img
-              [src]="tempProduct.imageUrl"
-              [alt]="tempProduct.name"
-              class="card-img-top p-3"
-              style="height: 220px; object-fit: contain; border-radius: 10px"
-            />
-          </a>
-            <div class="card-body text-center d-flex flex-column">
-              <h6 class="card-title">{{ tempProduct.name }}</h6>
-              <p class="text-primary fw-bold">
-                {{ tempProduct.unitPrice | currency: 'USD' }}
-              </p>
-              <div class="mt-auto">
-                <button (click)="addToCart(tempProduct)" class="btn btn-outline-primary w-100 mb-2 btn-hover">
-                  Add to Cart
-                </button>
+              <!-- Favorite Icon -->
+              <i class="fas fa-heart favorite-icon"></i>
 
-                <button [routerLink]="'/products/' + tempProduct.id" class="btn btn-secondary w-100 btn-hover">
-                  View Details
+              <!-- Action Icons (on image hover only) -->
+              <div class="action-icons">
+                <button (click)="addToCart(product)" class="action-btn">
+                  <i class="fas fa-shopping-bag"></i>
                 </button>
-           
+                <a [routerLink]="'/products/' + product.id" class="action-btn">
+                  + Quick View
+                </a>
               </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="product-info text-center">
+              <p class="product-category">{{ currentCategoryName }}</p>
+              <h5 class="product-name">{{ product.name }}</h5>
+              <p class="product-price">
+                <span class="new-price">{{
+                  product.unitPrice | currency : "USD"
+                }}</span>
+                <span class="old-price">$35.00</span>
+              </p>
             </div>
           </div>
         </div>
-        <!-- End Product Cards -->
       </div>
 
       <!-- begin footer -->
-      <div class="footer-pagination">
-        <div class="row">
-            <div class="col-md-6"></div>
+      <div class="footer-pagination mt-4 p-3">
+        <div
+          class="row align-items-center justify-content-between text-center text-lg-start"
+        >
+          <!-- Left: Pagination -->
+          <div
+            class="col-12 col-lg-4 mb-3 mb-lg-0 d-flex justify-content-center justify-content-lg-start"
+          >
+            <ngb-pagination
+              [(page)]="thePageNumber"
+              [pageSize]="thePageSize"
+              [collectionSize]="theTotalElements"
+              [maxSize]="5"
+              [boundaryLinks]="true"
+              (pageChange)="listProducts()"
+              class="custom-pagination"
+            ></ngb-pagination>
+          </div>
 
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-9" style="padding-left: 30%">
-                    
-                        <ngb-pagination [(page)]="thePageNumber"
-                                        [pageSize]="thePageSize"
-                                        [collectionSize]="theTotalElements"
-                                        [maxSize]="5"
-                                        [boundaryLinks]="true"
-                                        (pageChange)="listProducts()">
+          <!-- Center: Logo -->
+          <div
+            class="col-12 col-lg-4 mb-3 mb-lg-0 d-flex justify-content-center"
+          >
+            <img
+              src="assets/images/logo.png"
+              alt="Site Logo"
+              class="footer-logo"
+            />
+          </div>
 
-                        </ngb-pagination>
-
-                    </div>
-
-                    <div class="col-md-3 mt-2" style="text-align: right;">
-                        <span class="mr-2">Page Size </span>
-
-                        <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
-                            <option>4</option>
-                            <option selected="true">8</option>
-                            <option>20</option>
-                            <option>40</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-
+          <!-- Right: Page Size -->
+          <div
+            class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end align-items-center"
+          >
+            <label for="pageSizeSelect" class="mb-0 me-2 fw-semibold"
+              >Page Size</label
+            >
+            <select
+              #pageSizeSelect
+              class="form-select form-select-sm custom-select"
+              (change)="updatePageSize(pageSizeSelect.value)"
+            >
+              <option [selected]="thePageSize === 4">4</option>
+              <option [selected]="thePageSize === 8">8</option>
+              <option [selected]="thePageSize === 20">20</option>
+              <option [selected]="thePageSize === 40">40</option>
+            </select>
+          </div>
         </div>
-    </div>
-    <!-- end footer -->
-
+      </div>
+      <!-- end footer -->
     </div>
   </div>
 </div>

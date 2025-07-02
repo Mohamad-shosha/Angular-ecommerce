@@ -1,54 +1,231 @@
-.product-card {
-    border-radius: 12px;
-    transition: all 0.3s ease;
+.main-content {
+  background-color: white;
+}
+
+/* الكارت الرئيسي */
+.product-card-custom {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card-custom:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* جزء الصورة */
+.image-container {
+  /* background: linear-gradient(135deg, #f7f8fc, #eef1f5); */
+  background-color: #f4f4f4;
+  position: relative;
+  padding: 1rem;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-img-top-custom {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.image-container:hover .card-img-top-custom {
+  transform: scale(1.05);
+}
+
+/* الأيقونة فوق يمين الصورة */
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.image-container:hover .favorite-icon {
+  opacity: 1;
+  animation: fadeInTop 0.4s ease forwards;
+}
+
+.favorite-icon:hover {
+  color: #ff4d4d;
+  transform: scale(1.1);
+}
+/* الأكشنات تحت الصورة */
+.action-icons {
+  position: absolute;
+  bottom: 10px;
+  justify-content: center;
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  display: flex;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.image-container:hover .action-icons {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.action-btn {
+  background-color: #ffffff;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: #333;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  background-color: #f1f1f1;
+  color: #007bff;
+  transform: scale(1.05);
+}
+
+/* الجزء الخاص بمعلومات المنتج */
+.product-info {
+  padding: 1rem;
+  background-color: #fdfdfd;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.product-category {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  font-weight: bold;
+}
+
+.product-price .new-price {
+  color: #007bff;
+  font-size: 1.1rem;
+}
+
+.product-price .old-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+  margin-left: 8px;
+}
+
+/* Animations */
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .card-img-top {
-    border-radius: 10px; /* Optional: adds a rounded border to images */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .card-body {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0 0 12px 12px; /* Rounded bottom corners */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .card-title {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+}
+.footer-pagination {
+  background-color: #fdfdfd;
+  border-top: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+/* لوجو الموقع في المنتصف */
+.footer-logo {
+  max-height: 40px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(10%);
+}
+
+.footer-logo:hover {
+  transform: scale(1.1);
+  filter: grayscale(0%);
+}
+
+/* شكل الأزرار داخل pagination */
+.custom-pagination ::ng-deep .page-link {
+  border-radius: 50%;
+  margin: 0 4px;
+  color: #333;
+  transition: all 0.3s ease;
+  border: 1px solid #ddd;
+}
+
+/* تأثير عند المرور بالماوس */
+.custom-pagination ::ng-deep .page-link:hover {
+  background-color: #e2f0ff;
+  color: #0d6efd;
+}
+
+/* الزر الفعال */
+.custom-pagination ::ng-deep .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
+}
+
+/* select box الخاص بعدد الصفحات */
+.custom-select {
+  width: 100px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  font-size: 0.875rem;
+}
+
+.custom-select:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+}
+
+/* Responsive لموبايل لو حبيت تزود */
+@media (max-width: 768px) {
+  .footer-pagination {
+    text-align: center;
   }
-  
-  .text-primary {
-    color: #007bff !important;
+
+  .footer-logo {
+    margin: 10px 0;
   }
-  
-  .btn {
-    transition: all 0.2s ease;
-  }
-  
-  .btn-hover:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-body .btn {
-    font-weight: bold;
-  }
-  
-  .alert {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  
-  h4 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #495057;
-  }
+}

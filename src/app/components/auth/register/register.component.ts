@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { last } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.registerForm = this.fb.group({
       firstName: [
@@ -39,7 +41,9 @@ export class RegisterComponent {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
         ],
       ],
       password: [
@@ -65,9 +69,14 @@ export class RegisterComponent {
     this.errorMessage = '';
 
     this.authService.register(this.registerForm.value).subscribe({
-      next: () => this.router.navigate(['/auth/login']),
+      next: () => {
+        this.toastService.showSuccess('Registration Successful ✅');
+        this.router.navigate(['/auth/login']);
+      },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Registration failed';
+        this.toastService.showError(
+          err.error?.message || 'Registration failed ❌'
+        );
         this.loading = false;
       },
     });

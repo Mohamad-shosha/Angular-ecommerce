@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
+import { AuthStatusService } from 'src/app/services/auth-status.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,9 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService,
+    private authStatus: AuthStatusService
   ) {
     // إنشاء النموذج بالفاليديشن
     this.loginForm = this.fb.group({
@@ -26,7 +30,9 @@ export class LoginComponent {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
         ],
       ],
       password: [
@@ -58,12 +64,17 @@ export class LoginComponent {
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const role = payload.role;
         const email = payload.sub;
-        console.log(role)
+        console.log(role);
 
         // تخزين البيانات
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('userEmail', email);
+
+        // تحديث حالة المستخدم
+        this.authStatus.setUserEmail(email);
+
+        this.toastService.showSuccess('Login Successful ✅');
 
         // توجيه حسب الدور
         if (role === 'ADMIN') {
@@ -71,11 +82,11 @@ export class LoginComponent {
         } else if (role === 'CUSTOMER') {
           this.router.navigate(['/products']);
         } else {
-          this.errorMessage = 'Role not supported.';
+          this.toastService.showError('Unsupported Role ❌');
         }
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'Login failed';
+        this.toastService.showError(err.error?.message || 'Login failed ❌');
         this.loading = false;
       },
       complete: () => {

@@ -9,3 +9,33 @@
   opacity: 0.8;
   cursor: not-allowed;
 }
+
+/* ✅ تثبيت الفوتر أسفل الصفحة دائمًا */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet {
+  flex: 1;
+}
+
+/* ✅ تصميم الفوتر */
+.footer {
+  background-color: #1a1a1a;
+  color: #ccc;
+  border-top: 1px solid #333;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-link {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}

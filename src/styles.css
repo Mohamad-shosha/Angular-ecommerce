@@ -117,7 +117,6 @@ a:hover {
 
 .page-wrapper {
   overflow: hidden;
-  background: #e5e5e5;
   padding-bottom: 8vh;
 }
 
@@ -533,7 +532,7 @@ input.au-input.au-input-xl {
   background: #fff;
 }
 .main-content.page-m {
-  padding: 10% 30% 10% 5%
+  padding: 10% 30% 10% 5%;
 }
 
 /* 
@@ -745,10 +744,9 @@ table.table.table-bordered th {
 
 .detail-img {
   width: 30%;
-  height: 220px; 
-  object-fit: contain; 
-  border-radius: 10px
-  
+  height: 220px;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 /**/
@@ -780,9 +778,7 @@ a.btn-hover:hover {
   color: #fff;
   transform: scale(1.05);
   opacity: 0.9;
-  
 }
-
 
 .active-link {
   font-weight: bold;

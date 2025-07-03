@@ -1,0 +1,14 @@
+<div
+  class="toast-container"
+  *ngIf="visible && message"
+  [ngClass]="message.type"
+>
+  <i
+    class="bi"
+    [ngClass]="{
+      'bi-check-circle-fill': message.type === 'success',
+      'bi-x-circle-fill': message.type === 'error'
+    }"
+  ></i>
+  <span>{{ message.text }}</span>
+</div>

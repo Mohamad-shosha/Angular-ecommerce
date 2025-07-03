@@ -22,24 +22,24 @@
               <ng-container *ngIf="!userEmail; else loggedIn">
                 <button
                   class="btn btn-outline-light btn-sm ms-2"
-                  [disabled]="isLoading"
+                  [disabled]="isLoginLoading"
                   (click)="goToLogin()"
                 >
-                  <span *ngIf="!isLoading">Login</span>
+                  <span *ngIf="!isLoginLoading">Login</span>
                   <div
-                    *ngIf="isLoading"
+                    *ngIf="isLoginLoading"
                     class="spinner-border spinner-border-sm text-light"
                     role="status"
                   ></div>
                 </button>
                 <button
                   class="btn btn-outline-light btn-sm ms-2"
-                  [disabled]="isLoading"
+                  [disabled]="isRegisterLoading"
                   (click)="goToRegister()"
                 >
-                  <span *ngIf="!isLoading">Register</span>
+                  <span *ngIf="!isRegisterLoading">Register</span>
                   <div
-                    *ngIf="isLoading"
+                    *ngIf="isRegisterLoading"
                     class="spinner-border spinner-border-sm text-light"
                     role="status"
                   ></div>
@@ -52,9 +52,15 @@
                   <span>{{ userEmail }}</span>
                   <button
                     class="btn btn-outline-light btn-sm ms-2"
+                    [disabled]="islogoutLoading"
                     (click)="logout()"
                   >
-                    Logout
+                    <span *ngIf="!islogoutLoading">Logout</span>
+                    <div
+                      *ngIf="islogoutLoading"
+                      class="spinner-border spinner-border-sm text-light"
+                      role="status"
+                    ></div>
                   </button>
                 </div>
               </ng-template>

@@ -9,7 +9,10 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./main-layout.component.css'],
 })
 export class MainLayoutComponent {
-  isLoading = false;
+  isLoginLoading = false;
+  isRegisterLoading = false;
+  islogoutLoading = false;
+
   userEmail: string | null = null;
   currentYear = new Date().getFullYear();
 
@@ -24,39 +27,37 @@ export class MainLayoutComponent {
   }
 
   goToLogin() {
-    this.isLoading = true;
+    this.isLoginLoading = true;
 
-    // Delay 1.2 ثانية قبل ما يروح للـ login
     setTimeout(() => {
-      this.isLoading = false;
+      this.isLoginLoading = false;
       this.router.navigate(['/auth/login']);
     }, 1200);
   }
 
   goToRegister() {
-    this.isLoading = true;
+    this.isRegisterLoading = true;
 
     setTimeout(() => {
-      this.isLoading = false;
+      this.isRegisterLoading = false;
       this.router.navigate(['/auth/register']);
     }, 1200);
   }
 
   logout() {
-    this.isLoading = true;
-    // امسح بيانات الدخول
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userEmail');
-    this.authStatus.setUserEmail(null);
-
-    // ✅ أظهر رسالة نجاح
-    this.toastService.showSuccess('Logout Successful 👋');
+    this.islogoutLoading = true;
 
     setTimeout(() => {
-      this.isLoading = false;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userEmail');
+      this.authStatus.setUserEmail(null);
+
+      this.islogoutLoading = false;
+
+      this.toastService.showSuccess('Logout Successful 👋');
+
       this.router.navigate(['/products']);
     }, 1200);
-    // روح على صفحة اللوجين
   }
 }

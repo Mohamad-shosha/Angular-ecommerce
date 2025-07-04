@@ -34,17 +34,30 @@ const routes: Routes = [
       { path: 'category/:id/:name', component: ProductListComponent },
       { path: 'search/:keyword', component: ProductListComponent },
       { path: 'products/:id', component: ProductDetailsComponent },
-      { path: 'cart-details', component: CartDetailsComponent },
-      { path: 'checkout', component: CheckoutComponent },
+      {
+        path: 'cart-details',
+        component: CartDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['CUSTOMER'] },
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['CUSTOMER'] },
+      },
+
       {
         path: 'admin/dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] },
       },
       {
         path: 'user/homepage',
         component: HomepageComponent,
         canActivate: [AuthGuard],
+        data: { roles: ['CUSTOMER'] },
       },
       { path: '', redirectTo: 'products', pathMatch: 'full' },
     ],

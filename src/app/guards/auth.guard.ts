@@ -13,29 +13,43 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot
   ):
     | boolean
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
+    console.log('🚀 AuthGuard activated for route:', route.routeConfig?.path);
+
     const accessToken = localStorage.getItem('accessToken');
+    console.log('Access Token:', accessToken);
 
     if (accessToken) {
-      const payload = JSON.parse(atob(accessToken.split('.')[1]));
-      const userRole = payload.role;
+      try {
+        const payload = JSON.parse(atob(accessToken.split('.')[1]));
+        const roles: string[] =
+          payload.roles || (payload.role ? [payload.role] : []);
 
-      // ✅ تحقق من صلاحية الصفحة بناءً على الدور
-      if (
-        (state.url.startsWith('/admin') && userRole === 'ADMIN') ||
-        (state.url.startsWith('/user') && userRole === 'USER')
-      ) {
-        return true;
+        console.log('🔐 Decoded Payload:', payload);
+        console.log('👤 User roles:', roles);
+
+        const allowedRoles = route.data['roles'] as string[];
+        console.log('✅ Allowed roles for this route:', allowedRoles);
+
+        if (!allowedRoles || allowedRoles.length === 0) {
+          return true;
+        }
+
+        if (roles.some((role) => allowedRoles.includes(role))) {
+          return true;
+        }
+      } catch (e) {
+        console.error('❌ Invalid token payload', e);
       }
     }
 
-    // ❌ تحويل لصفحة تسجيل الدخول لو مفيش صلاحية
-    return this.router.createUrlTree(['/login']);
+    // ⛔ Unauthorized - redirect to login
+    return this.router.createUrlTree(['/auth/login']);
   }
 }

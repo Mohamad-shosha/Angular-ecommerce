@@ -16,6 +16,7 @@ import { Order } from 'src/app/common/order';
 import { CartItem } from '../../common/cart-item';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from 'src/app/common/purchase';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-checkout',
@@ -40,7 +41,8 @@ export class CheckoutComponent implements OnInit {
     private checkoutFormService: CheckoutFormService,
     private cartService: CartService,
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -311,14 +313,17 @@ export class CheckoutComponent implements OnInit {
     // call rest api
     this.checkoutService.placeOrder(purchase).subscribe({
       next: (response) => {
-        alert(
-          `Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`
+        this.toastService.showSuccess(
+          `✅ Order received! Tracking number: ${response.orderTrackingNumber}`
         );
+
         // reset cart
         this.resetCart();
       },
       error: (err) => {
-        alert(`There was an error: ${err.message}`);
+        this.toastService.showError(
+          `❌ There was an error:${err.message || 'Something went wrong'}`
+        );
       },
     });
   }

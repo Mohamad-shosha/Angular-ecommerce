@@ -64,6 +64,7 @@ export class LoginComponent {
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const role = payload.role;
         const email = payload.sub;
+        console.log('Decoded JWT Payload:', payload);
         console.log(role);
 
         // تخزين البيانات
@@ -80,7 +81,7 @@ export class LoginComponent {
         if (role === 'ADMIN') {
           this.router.navigate(['/admin/dashboard']);
         } else if (role === 'CUSTOMER') {
-          this.router.navigate(['/products']);
+          this.router.navigate(['/user/homepage']);
         } else {
           this.toastService.showError('Unsupported Role ❌');
         }

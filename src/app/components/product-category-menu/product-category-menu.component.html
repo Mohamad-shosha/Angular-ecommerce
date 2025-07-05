@@ -1,4 +1,4 @@
-<div class="menu-sidebar-content js-scrollbar1">
+<!-- <div class="menu-sidebar-content js-scrollbar1">
   <nav class="navbar-sidebar">
     <ul class="list-unstyled navbar-list">
       <li *ngFor="let tempProductCategory of productCategoreies">
@@ -8,6 +8,28 @@
           }}"
           routerLinkActive="active-link"
         >
+          {{ tempProductCategory.categoryName }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div> -->
+<div class="menu-sidebar-content js-scrollbar1">
+  <nav class="navbar-sidebar">
+    <ul class="list-unstyled navbar-list">
+      <li
+        *ngFor="let tempProductCategory of productCategoreies; let i = index"
+        class="category-item animate__animated animate__fadeInLeft"
+        [style.--animate-delay]="i * 0.1 + 's'"
+      >
+        <a
+          routerLink="/category/{{ tempProductCategory.id }}/{{
+            tempProductCategory.categoryName
+          }}"
+          routerLinkActive="active-link"
+          class="category-link"
+        >
+          <i class="bi me-2"></i>
           {{ tempProductCategory.categoryName }}
         </a>
       </li>

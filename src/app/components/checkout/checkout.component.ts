@@ -17,11 +17,23 @@ import { CartItem } from '../../common/cart-item';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from 'src/app/common/purchase';
 import { ToastService } from 'src/app/services/toast.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(15px)' }),
+        animate(
+          '600ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class CheckoutComponent implements OnInit {
   checkoutFormGroup!: FormGroup;
@@ -115,7 +127,7 @@ export class CheckoutComponent implements OnInit {
         ]),
         securityCode: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[0-9]{3}$'),
+          Validators.pattern('^[0-9]{3,4}$'),
         ]),
         expirationMonth: [''],
         expirationYear: [''],

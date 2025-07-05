@@ -1,76 +1,114 @@
 <div class="page-wrapper">
   <!-- MENU SIDEBAR-->
-  <aside class="menu-sidebar d-none d-lg-block">
-    <div class="logo">
-      <a routerLink="/products">
-        <img src="assets/images/logo.png" alt="drova" class="img-responsive" />
+  <!-- ASIDE / SIDEBAR -->
+  <aside
+    class="menu-sidebar d-none d-lg-block animate__animated animate__fadeInLeft"
+  >
+    <div class="logo-wrapper">
+      <a routerLink="/products" class="logo-link">
+        <img
+          src="assets/images/logo.png"
+          alt="drova"
+          class="img-fluid logo-img"
+        />
       </a>
     </div>
+    <!-- This is where your category menu component is placed -->
     <app-product-category-menu></app-product-category-menu>
   </aside>
+  <!-- END ASIDE / SIDEBAR -->
   <!-- END MENU SIDEBAR-->
 
   <div class="page-container">
     <!-- HEADER DESKTOP-->
-    <header class="header-desktop">
+    <header class="header-desktop animate__animated animate__fadeInDown">
       <div class="section-content section-content-p30">
         <div class="container-fluid">
           <div class="header-wrap">
-            <app-search></app-search>
-            <!-- زرار Login بتصميم متناسق وتحريك -->
-            <div class="login-wrapper ms-3 position-relative">
-              <ng-container *ngIf="!userEmail; else loggedIn">
-                <button
-                  class="btn btn-outline-light btn-sm ms-2"
-                  [disabled]="isLoginLoading"
-                  (click)="goToLogin()"
-                >
-                  <span *ngIf="!isLoginLoading">Login</span>
-                  <div
-                    *ngIf="isLoginLoading"
-                    class="spinner-border spinner-border-sm text-light"
-                    role="status"
-                  ></div>
-                </button>
-                <button
-                  class="btn btn-outline-light btn-sm ms-2"
-                  [disabled]="isRegisterLoading"
-                  (click)="goToRegister()"
-                >
-                  <span *ngIf="!isRegisterLoading">Register</span>
-                  <div
-                    *ngIf="isRegisterLoading"
-                    class="spinner-border spinner-border-sm text-light"
-                    role="status"
-                  ></div>
-                </button>
-              </ng-container>
+            <!-- Search Component (Now contains the input and button directly) -->
+            <div
+              class="search-container me-auto animate__animated animate__fadeInLeft animate__delay-0-3s"
+            >
+              <app-search></app-search>
+            </div>
 
-              <ng-template #loggedIn>
-                <div class="d-flex align-items-center gap-2 text-white">
-                  <i class="bi bi-person-circle fs-5"></i>
-                  <span>{{ userEmail }}</span>
+            <!-- Login/Register/User Info & Cart Status -->
+            <div class="header-right-actions d-flex align-items-center">
+              <!-- Login/Register/User Info -->
+              <div
+                class="user-auth-wrapper me-3 animate__animated animate__fadeInRight animate__delay-0-3s"
+              >
+                <ng-container *ngIf="!userEmail; else loggedIn">
                   <button
-                    class="btn btn-outline-light btn-sm ms-2"
-                    [disabled]="islogoutLoading"
-                    (click)="logout()"
+                    class="btn btn-login btn-sm me-2"
+                    [disabled]="isLoginLoading"
+                    (click)="goToLogin()"
                   >
-                    <span *ngIf="!islogoutLoading">Logout</span>
+                    <span *ngIf="!isLoginLoading">
+                      <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                    </span>
                     <div
-                      *ngIf="islogoutLoading"
-                      class="spinner-border spinner-border-sm text-light"
+                      *ngIf="isLoginLoading"
+                      class="spinner-border spinner-border-sm"
                       role="status"
                     ></div>
                   </button>
-                </div>
-              </ng-template>
-            </div>
+                  <button
+                    class="btn btn-register btn-sm"
+                    [disabled]="isRegisterLoading"
+                    (click)="goToRegister()"
+                  >
+                    <span *ngIf="!isRegisterLoading">
+                      <i class="bi bi-person-plus-fill me-1"></i>Register
+                    </span>
+                    <div
+                      *ngIf="isRegisterLoading"
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                    ></div>
+                  </button>
+                </ng-container>
 
-            <app-cart-status></app-cart-status>
+                <ng-template #loggedIn>
+                  <div
+                    class="user-info-display d-flex align-items-center gap-2"
+                  >
+                    <i class="bi bi-person-circle user-icon"></i>
+                    <span class="user-email-text">{{ userEmail }}</span>
+                    <button
+                      class="btn btn-logout btn-sm ms-2"
+                      [disabled]="islogoutLoading"
+                      (click)="logout()"
+                    >
+                      <span *ngIf="!islogoutLoading">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                      </span>
+                      <div
+                        *ngIf="islogoutLoading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                      ></div>
+                    </button>
+                  </div>
+                </ng-template>
+              </div>
+
+              <!-- Cart Status Component -->
+              <div
+                class="cart-status-container animate__animated animate__fadeInRight animate__delay-0-5s"
+              >
+                <app-cart-status></app-cart-status>
+              </div>
+            </div>
+            <!-- /header-right-actions -->
           </div>
+          <!-- /header-wrap -->
           <div class="account-wrap"></div>
+          <!-- Keep if needed for other layouts -->
         </div>
+        <!-- /container-fluid -->
       </div>
+      <!-- /section-content -->
     </header>
     <!-- END HEADER DESKTOP-->
 

@@ -1,0 +1,72 @@
+.cart-area-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2); /* Translucent background */
+  border-radius: 25px;
+  padding: 8px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative; /* For badge positioning */
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #ffffff; /* White text for contrast */
+  gap: 10px; /* Space between icon and price */
+}
+
+.cart-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Fixed width for icon area */
+  height: 30px; /* Fixed height for icon area */
+}
+
+.cart-bag-icon {
+  font-size: 1.6rem; /* Larger, more prominent icon */
+  color: #ffffff;
+  transition: transform 0.3s ease;
+  .cart-area-wrapper:hover & {
+    transform: scale(1.1); /* Slight bounce on icon when wrapper is hovered */
+  }
+}
+
+.cart-quantity-badge {
+  position: absolute;
+  top: -8px; /* Adjust vertical position */
+  right: -8px; /* Adjust horizontal position */
+  background-color: #ffc107; /* Bright yellow for attention */
+  color: #343a40; /* Dark text on yellow */
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  min-width: 20px; /* Ensure it's round even with single digit */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform-origin: center; /* For bounce animation */
+  animation-duration: 0.5s; /* Animate.css bounceIn */
+}
+
+.cart-total-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap; /* Prevent price from wrapping */
+}
+
+/* Animate.css for quantity badge (defined in component's animations array) */
+/* If you want a different animation, you'd define it here and apply the class in HTML */

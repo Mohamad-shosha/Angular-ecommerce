@@ -1,4 +1,4 @@
-<div class="form-header">
+<div class="search-input-wrapper">
   <input
     #myInput
     class="au-input au-input-xl"
@@ -7,6 +7,7 @@
     (keyup.enter)="doSearch(myInput.value)"
   />
   <button class="au-btn-submit" (click)="doSearch(myInput.value)">
-    Search
+    <i class="bi bi-search"></i>
+    <!-- Icon inside the button -->
   </button>
 </div>

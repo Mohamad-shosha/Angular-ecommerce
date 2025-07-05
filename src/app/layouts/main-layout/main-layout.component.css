@@ -1,41 +1,191 @@
-.login-wrapper .btn {
-  padding: 6px 16px;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+/* Base Header Styling */
+.header-desktop {
+  background: linear-gradient(
+    90deg,
+    #007bff 0%,
+    #0056b3 100%
+  ); /* Blue gradient */
+  padding: 10px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1030; /* Ensure it stays on top of other content */
+  animation-duration: 0.8s; /* Animate.css fade in down */
 }
 
-.login-wrapper .btn:disabled {
-  opacity: 0.8;
-  cursor: not-allowed;
+.section-content {
+  padding: 0 30px; /* Adjust padding as needed */
 }
 
-/* ✅ تثبيت الفوتر أسفل الصفحة دائمًا */
-.page-container {
+.header-wrap {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px; /* Space between search and actions */
 }
 
-router-outlet {
-  flex: 1;
+/* Search Component Container */
+.search-container {
+  flex-grow: 1; /* Allows search to take available space */
+  max-width: 500px; /* Limit search width */
+  animation-duration: 0.8s; /* Animate.css fade in left */
 }
 
-/* ✅ تصميم الفوتر */
-.footer {
-  background-color: #1a1a1a;
-  color: #ccc;
-  border-top: 1px solid #333;
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
+/* Updated: Search input and button styling */
+.search-input-wrapper {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  overflow: hidden; /* Ensures contents stay within rounded borders */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .au-input-xl {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    padding: 8px 15px;
+    outline: none;
+    flex-grow: 1;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+      opacity: 0.8;
+    }
+  }
+
+  .au-btn-submit {
+    background-color: #007bff; /* Changed to #007bff as requested */
+    color: #ffffff; /* White icon color */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 0 25px 25px 0; /* Only right side rounded */
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      color: #ffffff;
+    }
+  }
 }
 
-.footer-link {
-  color: #bbb;
-  text-decoration: none;
-  transition: color 0.3s ease;
+/* Right-hand actions container */
+.header-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between user auth and cart */
 }
 
-.footer-link:hover {
-  color: #fff;
+/* User Authentication/Info Wrapper */
+.user-auth-wrapper {
+  display: flex;
+  align-items: center;
+  animation-duration: 0.8s; /* Animate.css fade in right */
+}
+
+/* Common Button Styling for Login/Register/Logout */
+.btn-login,
+.btn-register,
+.btn-logout {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex; /* For centering spinner and icon */
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px); /* Lift effect */
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .spinner-border {
+    margin: 0 5px; /* Space for spinner */
+  }
+
+  i {
+    font-size: 1.1rem; /* Icon size */
+  }
+}
+
+/* Logged-in User Info Display */
+.user-info-display {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  .user-icon {
+    font-size: 1.5rem; /* Larger icon for user */
+    color: #ffffff;
+  }
+
+  .user-email-text {
+    max-width: 150px; /* Prevent long emails from breaking layout */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 30px;
+  }
+
+  &:hover {
+    .user-icon {
+      transform: scale(1.1); /* Slight animation on icon hover */
+    }
+    .user-email-text {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .header-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .search-container {
+    max-width: 100%; /* Take full width on smaller screens */
+    width: 100%;
+  }
+  .header-right-actions {
+    width: 100%;
+    justify-content: space-between; /* Space out user auth and cart */
+  }
+  .user-auth-wrapper {
+    flex-grow: 1; /* Allow auth buttons to grow */
+  }
+}
+
+@media (max-width: 575px) {
+  .btn-login,
+  .btn-register,
+  .btn-logout {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+  .user-email-text {
+    max-width: 100px; /* Even smaller for very small screens */
+  }
 }

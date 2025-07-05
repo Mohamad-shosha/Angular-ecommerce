@@ -1,0 +1,199 @@
+/* General Page Styling - No change from previous, still keeps the overall look */
+.main-content {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.section-content {
+  padding-top: 30px;
+}
+
+/* Checkout Box Styling - No change, maintains the attractive box design */
+.checkout-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  margin-bottom: 25px;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.box-title {
+  color: #343a40;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #007bff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  i {
+    font-size: 2rem;
+    color: #007bff;
+  }
+}
+
+/* New: Styling for Input/Select background and padding */
+.input-group-wrapper {
+  background-color: #fcfdff; /* Light background for each input group */
+  border-radius: 10px;
+  padding: 15px 20px; /* Padding inside the wrapper */
+  margin-bottom: 20px; /* Space between input groups */
+  border: 1px solid #e9f5ff; /* Subtle border */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft inner shadow */
+  transition: all 0.3s ease; /* Smooth transition for animations */
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: #effaff; /* Slightly darker on hover */
+  }
+}
+
+/* Form Area and Input Styling (Adjusted for new wrapper) */
+.form-area {
+  background: white;
+  padding: 0; /* Remove previous padding as it's now on input-group-wrapper */
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  padding: 10px 15px;
+  border: 1px solid #c2d9f2; /* Slightly bluer border */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  background-color: #ffffff; /* Explicitly white background for inputs */
+
+  &:focus {
+    border-color: #007bff; /* Stronger blue on focus */
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    outline: none;
+    background-color: #fff;
+  }
+}
+
+label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 8px;
+  display: flex; /* Use flex to align icon with text */
+  align-items: center; /* Vertically center icon with text */
+
+  i {
+    font-size: 1.2rem; /* Size of the icon within the label */
+    color: #007bff; /* Color for the label icons */
+    transition: color 0.3s ease;
+  }
+}
+
+/* Custom Alert for Validation Errors */
+.custom-alert {
+  background-color: #ffebeb;
+  color: #dc3545;
+  border-color: #dc3545;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 0.875rem;
+  margin-top: 5px;
+  animation-duration: 0.5s; /* Animate.css shake duration */
+}
+
+/* Checkbox Styling */
+.form-check-label {
+  font-size: 1.1rem;
+  color: #343a40;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  i {
+    font-size: 1.5rem;
+    color: #6c757d;
+    transition: color 0.3s ease;
+  }
+  &:hover i {
+    color: #007bff;
+  }
+}
+
+.form-check-input:checked ~ .form-check-label i {
+  color: #007bff;
+}
+
+/* Order Summary Details */
+.order-summary-details {
+  background-color: #fbfbfb;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px dashed #cceeff;
+
+  p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Purchase Button */
+.purchase-btn {
+  background: linear-gradient(45deg, #28a745, #218838);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+
+  &:hover {
+    transform: translateY(-7px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.45);
+    background: linear-gradient(45deg, #218838, #28a745);
+  }
+
+  &.animate__infinite {
+    animation-duration: 2s;
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 767px) {
+  .col-md-2,
+  .col-md-3 {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  .checkout-box {
+    padding: 20px;
+  }
+  .box-title {
+    font-size: 1.5rem;
+    i {
+      font-size: 1.8rem;
+    }
+  }
+  .purchase-btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+  .input-group-wrapper {
+    padding: 10px 15px;
+  }
+}

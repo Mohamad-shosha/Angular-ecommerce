@@ -1,9 +1,17 @@
-<div class="cart-area d-n">
-  <a routerLink="/cart-details">
-    <div class="total">
-      {{ totalPrice | currency : "USD" }}
-      <span>{{ totalQuantity }}</span>
+<div
+  class="cart-area-wrapper animate__animated animate__fadeInRight animate__delay-0-8s"
+>
+  <a routerLink="/cart-details" class="cart-link">
+    <div class="cart-icon-container">
+      <i class="bi bi-bag-fill cart-bag-icon"></i>
+      <span
+        class="cart-quantity-badge animate__animated animate__bounceIn"
+        *ngIf="totalQuantity > 0"
+        >{{ totalQuantity }}</span
+      >
     </div>
-    <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+    <div class="cart-total-price">
+      {{ totalPrice | currency : "USD" }}
+    </div>
   </a>
 </div>

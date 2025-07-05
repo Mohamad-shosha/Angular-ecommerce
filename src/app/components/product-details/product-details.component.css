@@ -1,13 +1,101 @@
+/* Detail Section Styling */
+.detail-section {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  margin-top: 50px;
+}
 
-.btn {
-    transition: all 0.2s ease;
+/* Image Wrapper with fixed height */
+.image-wrapper {
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Product Image with zoom effect */
+.product-image-fixed-size {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.hover-zoom:hover,
+.product-image-fixed-size:hover {
+  transform: scale(1.05);
+  animation: zoom-bounce 0.5s ease-in-out;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Add to Cart Button */
+.btn-add-to-cart {
+  transition: all 0.3s ease;
+}
+.btn-add-to-cart:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background-color: #0069d9; /* darkened #007bff */
+  border-color: #0062cc;
+}
+
+/* Optional: pulse animation on hover */
+.btn-hover:hover {
+  animation: pulse 0.8s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
   }
-  
-  .btn-hover:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  50% {
+    transform: scale(1.07);
   }
-  
-  .card-body .btn {
-    font-weight: bold;
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Back to List Button (Fixed at Bottom Right) */
+.back-link {
+  position: fixed;
+  bottom: 25px;
+  right: 35px;
+  font-size: 1.1rem;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
+}
+.back-link i {
+  margin-right: 8px;
+}
+.back-link:hover {
+  background: linear-gradient(45deg, #0056b3, #007bff);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+}
+
+@keyframes zoom-bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

@@ -45,4 +45,16 @@ export class AuthService {
       refreshToken,
     });
   }
+  getUserEmail(): string {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return '';
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.sub || payload.email || '';
+    } catch (error) {
+      console.error('Failed to decode token', error);
+      return '';
+    }
+  }
 }

@@ -36,6 +36,16 @@
                 <a [routerLink]="'/products/' + product.id" class="action-btn">
                   + Quick View
                 </a>
+                <!-- Try Now Button (Upload Image) -->
+                <label class="action-btn" title="Try Now">
+                  <i class="bi bi-camera-fill"></i>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    (change)="tryNow($event, product)"
+                  />
+                </label>
               </div>
             </div>
 

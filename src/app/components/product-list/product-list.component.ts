@@ -18,7 +18,8 @@ export class ProductListComponent implements OnInit {
   previousCategoryId: number = 1;
   currentCategoryName: string = '';
   searchMode: boolean = false;
-
+  showPreviewModal: boolean = false;
+  previewUrl: string | null =null;
   thePageNumber: number = 1;
   thePageSize: number = 8;
   theTotalElements: number = 0;
@@ -116,45 +117,50 @@ export class ProductListComponent implements OnInit {
     );
     this.cartService.addToCart(theCartItem);
   }
-  tryNow(event: Event, product: Product) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
+tryNow(event: Event, product: Product) {
+  const input = event.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) return;
 
-    const userImage = input.files[0];
+  const userImage = input.files[0];
 
-    if (!product.imageUrl) {
-      this.toastService.showError('Product image is not available.');
-      return;
-    }
-
-    fetch(product.imageUrl)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const clothFile = new File([blob], 'cloth.png', { type: 'image/png' });
-
-        const formData = new FormData();
-        formData.append('user', userImage);
-        formData.append('cloth', clothFile);
-
-        this.http
-          .post('http://localhost:8080/api/vdr/try-now', formData, {
-            responseType: 'blob',
-          })
-          .subscribe({
-            next: (res) => {
-              const url = URL.createObjectURL(res);
-              window.open(url, '_blank');
-              this.toastService.showSuccess('Preview generated successfully!');
-            },
-            error: (err) => {
-              console.error('Try-now error', err);
-              this.toastService.showError('Failed to generate preview.');
-            },
-          });
-      })
-      .catch((err) => {
-        console.error('Failed to fetch image', err);
-        this.toastService.showError('Could not load product image.');
-      });
+  if (!product.imageUrl) {
+    this.toastService.showError('Product image is not available.');
+    return;
   }
+
+  fetch(product.imageUrl)
+    .then((res) => res.blob())
+    .then((blob) => {
+      const clothFile = new File([blob], 'cloth.png', { type: 'image/png' });
+
+      const formData = new FormData();
+      formData.append('user', userImage);
+      formData.append('cloth', clothFile);
+
+      this.http
+        .post('https://sturgeon-handy-uniquely.ngrok-free.app/generate', formData, {
+          responseType: 'arraybuffer',
+        })
+        .subscribe({
+          next: (res) => {  
+            const blob = new Blob([res], { type: 'image/jpeg' });
+            const reader = new FileReader();
+            reader.onload = () => {
+            this.previewUrl = reader.result as string;
+            this.showPreviewModal = true;
+};
+            reader.readAsDataURL(blob);
+            this.toastService.showSuccess('Preview generated successfully!');
+          },
+          error: (err) => {
+            console.error('Try-now error', err);
+            this.toastService.showError('Failed to generate preview.');
+          },
+        });
+    })
+    .catch((err) => {
+      console.error('Failed to fetch image', err);
+      this.toastService.showError('Could not load product image.');
+    });
+}
 }

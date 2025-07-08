@@ -36,7 +36,7 @@
                 <a [routerLink]="'/products/' + product.id" class="action-btn">
                   + Quick View
                 </a>
-                <!-- Try Now Button (Upload Image) -->
+            <!-- Try Now Button (Upload Image) -->
                 <label class="action-btn" title="Try Now">
                   <i class="bi bi-camera-fill"></i>
                   <input
@@ -116,6 +116,45 @@
         </div>
       </div>
       <!-- end footer -->
+    </div>
+  </div>
+</div>
+<!-- Try Now Preview Modal -->
+<div
+  class="modal fade show animate_animated animate_fadeIn"
+  tabindex="-1"
+  [ngStyle]="{ display: showPreviewModal ? 'block' : 'none' }"
+  style="background-color: rgba(0, 0, 0, 0.5); z-index: 1055"
+  *ngIf="previewUrl"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-stars me-2 text-warning"></i>Preview Result
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="showPreviewModal = false"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <img
+          [src]="previewUrl"
+          alt="Preview"
+          class="img-fluid rounded shadow"
+          style="max-height: 500px"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showPreviewModal = false">
+          <i class="bi bi-x-circle me-1"></i> Close
+        </button>
+        <a [href]="previewUrl" download="preview.jpg" class="btn btn-success">
+          <i class="bi bi-download me-1"></i> Download Image
+        </a>
+      </div>
     </div>
   </div>
 </div>

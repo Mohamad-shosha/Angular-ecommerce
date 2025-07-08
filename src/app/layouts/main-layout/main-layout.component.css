@@ -189,3 +189,24 @@
     max-width: 100px; /* Even smaller for very small screens */
   }
 }
+.insight-btn {
+  animation: floatUpDown 2s ease-in-out infinite;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.insight-btn:hover {
+  background-color: #d39e00; /* درجة أغمق من warning */
+  transform: scale(1.05);
+}
+
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

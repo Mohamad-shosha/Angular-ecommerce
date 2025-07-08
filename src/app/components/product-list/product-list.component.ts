@@ -4,6 +4,8 @@ import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from 'src/app/common/cart-item';
 import { CartService } from 'src/app/services/cart.service';
+import { HttpClient } from '@angular/common/http';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-product-list',
@@ -17,16 +19,17 @@ export class ProductListComponent implements OnInit {
   currentCategoryName: string = '';
   searchMode: boolean = false;
 
-  // new properties for pagination
   thePageNumber: number = 1;
   thePageSize: number = 8;
   theTotalElements: number = 0;
-  previousKeyword: string="";
+  previousKeyword: string = '';
 
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -48,56 +51,45 @@ export class ProductListComponent implements OnInit {
   handleSearchProducts() {
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    // if we have a different keyword than previous
-    // then set thePageNumber to 1
-
-    if (this.previousKeyword != theKeyword) {
+    if (this.previousKeyword !== theKeyword) {
       this.thePageNumber = 1;
     }
 
     this.previousKeyword = theKeyword;
 
-    console.log(`keyword=${theKeyword}, thePageNumber=${this.thePageNumber}`);
-
-    // now search for the products using keyword
-    this.productService.searchProductsPaginate(this.thePageNumber - 1,
-                                               this.thePageSize,
-                                               theKeyword).subscribe(this.processResult());
+    this.productService
+      .searchProductsPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        theKeyword
+      )
+      .subscribe(this.processResult());
   }
 
   handleListProducts() {
-    // check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
     if (hasCategoryId) {
-      // get the "id" param string. convert string to a number using the "+" symbol
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
       this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
     } else {
-      // not category id available ... default to category id 1
       this.currentCategoryId = 1;
       this.currentCategoryName = 'T-Shirts';
     }
 
-    //
-    // Check if we have a different category than previous
-    // Note: Angular will reuse a component if it is currently being viewed
-    //
-
-    // if we have a different category id than previous
-    // then set thePageNumber back to 1
-    if (this.previousCategoryId != this.currentCategoryId) {
+    if (this.previousCategoryId !== this.currentCategoryId) {
       this.thePageNumber = 1;
     }
 
     this.previousCategoryId = this.currentCategoryId;
 
-    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
-
-    // now get the products for the given category id
-    this.productService.getProductListPaginate(this.thePageNumber - 1,
-                                              this.thePageSize,
-                                              this.currentCategoryId).subscribe(this.processResult());
+    this.productService
+      .getProductListPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        this.currentCategoryId
+      )
+      .subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: string) {
@@ -116,11 +108,53 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(theProduct: Product) {
-    
-    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
-
-    const theCartItem = new CartItem(theProduct.id!, theProduct.name!, theProduct.imageUrl!, theProduct.unitPrice!);
-
+    const theCartItem = new CartItem(
+      theProduct.id!,
+      theProduct.name!,
+      theProduct.imageUrl!,
+      theProduct.unitPrice!
+    );
     this.cartService.addToCart(theCartItem);
+  }
+  tryNow(event: Event, product: Product) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const userImage = input.files[0];
+
+    if (!product.imageUrl) {
+      this.toastService.showError('Product image is not available.');
+      return;
+    }
+
+    fetch(product.imageUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const clothFile = new File([blob], 'cloth.png', { type: 'image/png' });
+
+        const formData = new FormData();
+        formData.append('user', userImage);
+        formData.append('cloth', clothFile);
+
+        this.http
+          .post('http://localhost:8080/api/vdr/try-now', formData, {
+            responseType: 'blob',
+          })
+          .subscribe({
+            next: (res) => {
+              const url = URL.createObjectURL(res);
+              window.open(url, '_blank');
+              this.toastService.showSuccess('Preview generated successfully!');
+            },
+            error: (err) => {
+              console.error('Try-now error', err);
+              this.toastService.showError('Failed to generate preview.');
+            },
+          });
+      })
+      .catch((err) => {
+        console.error('Failed to fetch image', err);
+        this.toastService.showError('Could not load product image.');
+      });
   }
 }

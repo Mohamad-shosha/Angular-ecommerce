@@ -16,6 +16,10 @@ export class OrderService {
       responseType: 'text',
     });
   }
+  getCancelledOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/cancelled`);
+  }
+
   restoreOrder(orderId: number): Observable<any> {
     return this.http.put(
       `${this.baseUrl}/restore?orderId=${orderId}`,

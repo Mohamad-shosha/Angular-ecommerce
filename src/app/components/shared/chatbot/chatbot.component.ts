@@ -16,6 +16,7 @@ export class ChatbotComponent implements OnInit {
   questionControl = new FormControl('');
   messages: { text: string; from: 'user' | 'bot' }[] = [];
   loading = false;
+  showSuggestions = true;
 
   // عدلنا هنا: الأسئلة المقترحة أصبحت تحتوي على id
   suggestedQuestions: { id: number; question: string }[] = [];
@@ -56,6 +57,7 @@ export class ChatbotComponent implements OnInit {
     });
 
     this.questionControl.setValue('');
+    this.showSuggestions = false;
   }
 
   sendSuggested(faq: { id: number; question: string }) {
@@ -71,6 +73,8 @@ export class ChatbotComponent implements OnInit {
         this.messages.push({ text: 'Something went wrong.', from: 'bot' });
         this.loading = false;
       },
-    });
+    }
+  );
+      this.showSuggestions = false;
   }
 }

@@ -17,6 +17,38 @@
 <div class="menu-sidebar-content js-scrollbar1">
   <nav class="navbar-sidebar">
     <ul class="list-unstyled navbar-list">
+      <!-- My Products for CUSTOMER -->
+      <li
+        *ngIf="userRole === 'CUSTOMER'"
+        class="category-item animate__animated animate__fadeInLeft"
+        style="--animate-delay: 0s"
+      >
+        <a
+          routerLink="/user/homepage"
+          routerLinkActive="active-link"
+          class="category-link"
+        >
+          <i class="bi bi-box-seam me-2"></i>
+          My Products
+        </a>
+      </li>
+
+      <!-- Dashboard for ADMIN -->
+      <li
+        *ngIf="userRole === 'ADMIN'"
+        class="category-item animate__animated animate__fadeInLeft"
+        style="--animate-delay: 0s"
+      >
+        <a
+          routerLink="/admin/dashboard"
+          routerLinkActive="active-link"
+          class="category-link"
+        >
+          <i class="bi bi-speedometer2 me-2"></i>
+          Dashboard
+        </a>
+      </li>
+
       <li
         *ngFor="let tempProductCategory of productCategoreies; let i = index"
         class="category-item animate__animated animate__fadeInLeft"

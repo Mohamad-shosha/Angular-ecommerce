@@ -1,0 +1,51 @@
+table th,
+table td {
+  vertical-align: middle;
+}
+
+.table-responsive {
+  animation-delay: 0.1s;
+  padding: 10px;
+}
+
+.modal-content {
+  animation: fadeIn 0.3s ease-in-out;
+  border-radius: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.custom-nav-link {
+  color: #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.custom-nav-link:hover {
+  background-color: #ffc1071a;
+  color: #ffc107;
+  transform: translateX(5px);
+}
+
+.sidebar-toggle-btn {
+  background-color: #1e1e2f;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  transform: scale(1.05);
+  background-color: #292944;
+  color: #ffdd57;
+}

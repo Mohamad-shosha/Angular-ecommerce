@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Role } from '../common/role.model';
+import { Customer } from '../common/customer';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,8 @@ export class RoleService {
 
   constructor(private http: HttpClient) {}
 
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(this.baseUrl);
+  getAllRoles(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(this.baseUrl);
   }
 
   addRole(role: Role): Observable<Role> {

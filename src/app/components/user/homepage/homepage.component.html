@@ -1,1 +1,205 @@
-<p>homepage works!</p>
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div
+    class="sidebar text-white p-3 animate__animated"
+    [class.d-none]="!sidebarOpen"
+    [ngClass]="{
+      animate__fadeInLeft: sidebarOpen,
+      animate__fadeOutLeft: !sidebarOpen
+    }"
+    style="
+      width: 280px;
+      min-height: 100vh;
+      background-color: #1e1e2f;
+      transition: all 0.4s ease;
+    "
+  >
+    <div class="text-center mb-4">
+      <i
+        class="bi bi-person-circle d-block fs-1 text-warning mb-2 animate__animated animate__fadeInDown"
+      ></i>
+      <span class="text-warning fw-bold fs-6">{{ customerEmail }}</span>
+    </div>
+
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" (click)="filterOrders('ALL')">
+          <i class="bi bi-list-task me-2"></i> All Orders
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" (click)="filterOrders('CANCELLED')">
+          <i class="bi bi-x-circle me-2"></i> Cancelled Orders
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" (click)="filterOrders('PENDING')">
+          <i class="bi bi-clock me-2"></i> Pending Orders
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" [routerLink]="['/products']">
+          <i class="bi bi-shop me-2"></i> Go to Products
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-grow-1">
+    <!-- Toggle Sidebar Button -->
+    <button
+      class="btn sidebar-toggle-btn m-3 shadow-sm animate__animated animate__fadeInDown"
+      (click)="toggleSidebar()"
+    >
+      <i class="bi" [ngClass]="sidebarOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+    <!-- Orders Table Section -->
+    <div class="container animate__animated animate__fadeIn">
+      <h3 class="mb-4">
+        <i class="bi bi-bag-check me-2"></i>
+        Orders - {{ selectedFilter }}
+      </h3>
+
+      <app-orders-table
+        [orders]="filteredOrders"
+        (viewDetails)="viewDetails($event)"
+        (openCancelModal)="openCancelModal($event)"
+        (restoreOrder)="restoreOrder($event)"
+      ></app-orders-table>
+    </div>
+  </div>
+</div>
+
+<!-- Order Details Modal -->
+<div
+  class="modal fade"
+  id="orderDetailsModal"
+  tabindex="-1"
+  aria-labelledby="orderDetailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">
+          Order Details - #{{ selectedOrder?.orderTrackingNumber }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedOrder">
+        <p><strong>Status:</strong> {{ selectedOrder.status }}</p>
+        <p>
+          <strong>Created At:</strong>
+          {{ selectedOrder.createdAt | date : "medium" }}
+        </p>
+        <p>
+          <strong>Total Price:</strong>
+          {{ selectedOrder.totalPrice | currency : "USD" }}
+        </p>
+
+        <hr />
+        <h6><i class="bi bi-box-seam me-1"></i> Products:</h6>
+        <div class="row mb-2" *ngFor="let item of selectedOrder.orderItems">
+          <div class="col-md-2">
+            <img
+              [src]="item.imageUrl"
+              alt="Product Image"
+              class="img-fluid rounded"
+            />
+          </div>
+          <div class="col-md-10">
+            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+            <p>
+              <strong>Price:</strong> {{ item.unitPrice | currency : "USD" }}
+            </p>
+          </div>
+        </div>
+
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <h6><i class="bi bi-truck"></i> Shipping Address</h6>
+            <p>
+              {{ selectedOrder.shippingAddress?.street }},
+              {{ selectedOrder.shippingAddress?.city }},
+              {{ selectedOrder.shippingAddress?.state }},
+              {{ selectedOrder.shippingAddress?.country }} -
+              {{ selectedOrder.shippingAddress?.zipCode }}
+            </p>
+          </div>
+          <div class="col-md-6">
+            <h6><i class="bi bi-credit-card-2-front"></i> Billing Address</h6>
+            <p>
+              {{ selectedOrder.billingAddress?.street }},
+              {{ selectedOrder.billingAddress?.city }},
+              {{ selectedOrder.billingAddress?.state }},
+              {{ selectedOrder.billingAddress?.country }} -
+              {{ selectedOrder.billingAddress?.zipCode }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cancel Reason Modal -->
+<div
+  class="modal fade"
+  id="cancelReasonModal"
+  tabindex="-1"
+  aria-labelledby="cancelReasonModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelReasonModalLabel">
+          Cancel Order - {{ cancelTargetOrder?.orderTrackingNumber }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <label for="cancelReasonTextarea" class="form-label"
+          >Reason for cancellation</label
+        >
+        <textarea
+          [formControl]="cancelReasonControl"
+          id="cancelReasonTextarea"
+          class="form-control"
+          rows="3"
+          placeholder="Enter reason here..."
+        ></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmCancel()"
+          data-bs-dismiss="modal"
+        >
+          Confirm Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,6 +23,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { OrdersTableComponent } from './components/orders-table/orders-table.component';
+import { ChatbotComponent } from './components/shared/chatbot/chatbot.component';
 
 const routes: Routes = [
   {
@@ -47,20 +49,21 @@ const routes: Routes = [
         data: { roles: ['CUSTOMER'] },
       },
 
-      {
-        path: 'admin/dashboard',
-        component: DashboardComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['ADMIN'] },
-      },
-      {
-        path: 'user/homepage',
-        component: HomepageComponent,
-        canActivate: [AuthGuard],
-        data: { roles: ['CUSTOMER'] },
-      },
       { path: '', redirectTo: 'products', pathMatch: 'full' },
     ],
+  },
+
+  {
+    path: 'admin/dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN'] },
+  },
+  {
+    path: 'user/homepage',
+    component: HomepageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['CUSTOMER'] },
   },
   {
     path: '',
@@ -90,6 +93,9 @@ const routes: Routes = [
     MainLayoutComponent,
     AuthLayoutComponent,
     ToastComponent,
+    OrdersTableComponent,
+    OrdersTableComponent,
+    ChatbotComponent,
   ],
   imports: [
     BrowserModule,

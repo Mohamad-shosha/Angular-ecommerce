@@ -65,6 +65,20 @@
   display: inline-block;
 }
 
+/* منطقة الأسئلة المقترحة */
+.suggested-questions {
+  background-color: #ffffff;
+  border-top: 1px solid #dee2e6;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+
+/* تخصيص شكل الأزرار داخل الأسئلة */
+.suggested-questions .btn {
+  white-space: nowrap;
+}
+
 /* حركة bounce للزر */
 @keyframes bounce {
   0%,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductCategory } from '../../common/product-category';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-product-category-menu',
@@ -9,10 +10,15 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductCategoryMenuComponent implements OnInit {
   productCategoreies: ProductCategory[] = [];
-  constructor(private productService: ProductService) {}
+  userRole: string = '';
+  constructor(
+    private productService: ProductService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.listProductCategories();
+    this.userRole = this.authService.getUserRole() ?? '';
   }
   listProductCategories() {
     this.productService.getProductCategories().subscribe((data) => {

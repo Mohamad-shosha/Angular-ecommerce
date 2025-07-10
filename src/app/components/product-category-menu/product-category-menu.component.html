@@ -1,70 +1,46 @@
-<!-- <div class="menu-sidebar-content js-scrollbar1">
-  <nav class="navbar-sidebar">
-    <ul class="list-unstyled navbar-list">
-      <li *ngFor="let tempProductCategory of productCategoreies">
-        <a
-          routerLink="/category/{{ tempProductCategory.id }}/{{
-            tempProductCategory.categoryName
-          }}"
-          routerLinkActive="active-link"
-        >
-          {{ tempProductCategory.categoryName }}
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div> -->
-<div class="menu-sidebar-content js-scrollbar1">
-  <nav class="navbar-sidebar">
-    <ul class="list-unstyled navbar-list">
-      <!-- My Products for CUSTOMER -->
-      <li
-        *ngIf="userRole === 'CUSTOMER'"
-        class="category-item animate__animated animate__fadeInLeft"
-        style="--animate-delay: 0s"
+<!-- Horizontal Category Menu -->
+<div
+  class="category-navbar-wrapper w-100 animate__animated animate__fadeInDown mt-2"
+  *ngIf="productCategoreies?.length"
+>
+  <div class="category-navbar-scroll d-flex overflow-auto">
+    <li
+      *ngIf="userRole === 'CUSTOMER'"
+      class="category-item animate_animated animate_fadeInLeft"
+      style="--animate-delay: 0s"
+    >
+      <a
+        routerLink="/user/homepage"
+        routerLinkActive="active-link"
+        class="category-nav-link"
       >
-        <a
-          routerLink="/user/homepage"
-          routerLinkActive="active-link"
-          class="category-link"
-        >
-          <i class="bi bi-box-seam me-2"></i>
-          My Products
-        </a>
-      </li>
+        <i class="bi bi-box-seam me-2"></i>
+        My Products
+      </a>
+    </li>
 
-      <!-- Dashboard for ADMIN -->
-      <li
-        *ngIf="userRole === 'ADMIN'"
-        class="category-item animate__animated animate__fadeInLeft"
-        style="--animate-delay: 0s"
+    <!-- Dashboard for ADMIN -->
+    <li
+      *ngIf="userRole === 'ADMIN'"
+      class="category-item animate_animated animate_fadeInLeft"
+      style="--animate-delay: 0s"
+    >
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="active-link"
+        class="category-nav-link"
       >
-        <a
-          routerLink="/admin/dashboard"
-          routerLinkActive="active-link"
-          class="category-link"
-        >
-          <i class="bi bi-speedometer2 me-2"></i>
-          Dashboard
-        </a>
-      </li>
-
-      <li
-        *ngFor="let tempProductCategory of productCategoreies; let i = index"
-        class="category-item animate__animated animate__fadeInLeft"
-        [style.--animate-delay]="i * 0.1 + 's'"
-      >
-        <a
-          routerLink="/category/{{ tempProductCategory.id }}/{{
-            tempProductCategory.categoryName
-          }}"
-          routerLinkActive="active-link"
-          class="category-link"
-        >
-          <i class="bi me-2"></i>
-          {{ tempProductCategory.categoryName }}
-        </a>
-      </li>
-    </ul>
-  </nav>
+        <i class="bi bi-speedometer2 me-2"></i>
+        Dashboard
+      </a>
+    </li>
+    <a
+      *ngFor="let category of productCategoreies"
+      [routerLink]="['/category', category.id, category.categoryName]"
+      routerLinkActive="active-category-link"
+      class="category-nav-link"
+    >
+      <i class="bi bi-tags me-1"></i> {{ category.categoryName }}
+    </a>
+  </div>
 </div>

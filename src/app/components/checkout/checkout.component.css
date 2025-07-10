@@ -3,10 +3,17 @@
   background-color: #f0f2f5;
   min-height: 100vh;
   padding-bottom: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
 .section-content {
   padding-top: 30px;
+  margin: 0;
+  width: 100%;
 }
 
 /* Checkout Box Styling - No change, maintains the attractive box design */
@@ -196,4 +203,9 @@ label {
   .input-group-wrapper {
     padding: 10px 15px;
   }
+}
+
+.container-fluid {
+  max-width: 1200px; /* Limit the width for larger screens */
+  padding: 0 15px; /* Add some horizontal padding */
 }

@@ -1,21 +1,6 @@
 <div class="page-wrapper">
   <!-- MENU SIDEBAR-->
-  <!-- ASIDE / SIDEBAR -->
-  <aside
-    class="menu-sidebar d-none d-lg-block animate__animated animate__fadeInLeft"
-  >
-    <div class="logo-wrapper">
-      <a routerLink="/products" class="logo-link">
-        <img
-          src="assets/images/logo.png"
-          alt="drova"
-          class="img-fluid logo-img"
-        />
-      </a>
-    </div>
-    <!-- This is where your category menu component is placed -->
-    <app-product-category-menu></app-product-category-menu>
-  </aside>
+
   <!-- END ASIDE / SIDEBAR -->
   <!-- END MENU SIDEBAR-->
 
@@ -30,6 +15,16 @@
               class="search-container me-auto animate__animated animate__fadeInLeft animate__delay-0-3s"
             >
               <app-search></app-search>
+            </div>
+
+            <div class="logo-wrapper">
+              <a routerLink="/products" class="logo-link">
+                <img
+                  src="assets/images/logo.png"
+                  alt="drova"
+                  class="img-fluid logo-img"
+                />
+              </a>
             </div>
 
             <!-- Login/Register/User Info & Cart Status -->
@@ -111,6 +106,9 @@
       <!-- /section-content -->
     </header>
     <!-- END HEADER DESKTOP-->
+    <div class="w-100 mt-2">
+      <app-product-category-menu></app-product-category-menu>
+    </div>
 
     <!-- MAIN CONTENT-->
     <router-outlet></router-outlet>

@@ -57,7 +57,7 @@ export class ChatbotComponent implements OnInit {
     });
 
     this.questionControl.setValue('');
-    this.showSuggestions = false;
+    // this.showSuggestions = false;
   }
 
   sendSuggested(faq: { id: number; question: string }) {
@@ -73,8 +73,7 @@ export class ChatbotComponent implements OnInit {
         this.messages.push({ text: 'Something went wrong.', from: 'bot' });
         this.loading = false;
       },
-    }
-  );
-      this.showSuggestions = false;
+    });
+    // this.showSuggestions = false;
   }
 }

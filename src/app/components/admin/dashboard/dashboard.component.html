@@ -1,1 +1,125 @@
-<p>dashboard works!</p>
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div
+    class="sidebar text-white p-3 animate__animated"
+    [class.d-none]="!sidebarOpen"
+    [ngClass]="{
+      animate__fadeInLeft: sidebarOpen,
+      animate__fadeOutLeft: !sidebarOpen
+    }"
+    style="
+      width: 280px;
+      min-height: 100vh;
+      background-color: #1e1e2f;
+      transition: all 0.4s ease;
+    "
+  >
+    <div class="text-center mb-4">
+      <i
+        class="bi bi-person-circle d-block fs-1 text-warning mb-2 animate__animated animate__fadeInDown"
+      ></i>
+      <span class="text-warning fw-bold fs-6">{{ adminEmail }}</span>
+    </div>
+
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" (click)="viewSection = 'customers'">
+          <i class="bi bi-people-fill me-2"></i> All Customers
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a
+          class="nav-link custom-nav-link"
+          (click)="viewSection = 'canceledOrders'"
+        >
+          <i class="bi bi-x-octagon-fill me-2"></i> Canceled Orders
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link custom-nav-link" [routerLink]="['/products']">
+          <i class="bi bi-shop me-2"></i> Go to Products
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Customers Table -->
+  <div
+    class="container-fluid animate__animated animate__fadeIn"
+    *ngIf="viewSection === 'customers'"
+  >
+    <h3 class="mb-4"><i class="bi bi-people-fill me-2"></i> All Customers</h3>
+    <div class="table-responsive rounded shadow-sm">
+      <table class="table align-middle table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+            <td>{{ customer.email }}</td>
+            <td>
+              <span
+                class="badge bg-primary"
+                *ngIf="customer.role === 'CUSTOMER'"
+                >Customer</span
+              >
+              <span class="badge bg-success" *ngIf="customer.role === 'ADMIN'"
+                >Admin</span
+              >
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-outline-warning"
+                (click)="promoteToAdmin(customer)"
+                [disabled]="customer.role === 'ADMIN'"
+              >
+                <i class="bi bi-arrow-up-circle me-1"></i> Promote
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Canceled Orders Table -->
+  <div
+    class="container-fluid animate__animated animate__fadeIn"
+    *ngIf="viewSection === 'canceledOrders'"
+  >
+    <h3 class="mb-4">
+      <i class="bi bi-x-circle-fill me-2 text-danger"></i> Canceled Orders
+    </h3>
+    <div class="table-responsive rounded shadow-sm">
+      <table class="table align-middle table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Order Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Total</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of canceledOrders; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ order.orderTrackingNumber }}</td>
+            <td>
+              <span class="badge bg-danger">{{ order.status }}</span>
+            </td>
+            <td>{{ order.totalPrice | currency : "USD" }}</td>
+            <td>{{ order.createdAt | date : "mediumDate" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
